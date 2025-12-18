@@ -1,9 +1,37 @@
-# Script para realizar prueba del sistema completo
 
-# 1.- Deteccion y segmentacíon los eventos de la traza
+"""
+Script para ejecutar la demo del sistema completo.
+"""
 
-#python -m src.modules.orchestator.detect_and_segment --sac_test_name example/sacs/CO10/CO10
+import subprocess
 
-# 2.- Estimacione de modelos de magnitud, epicentro y profundidad
 
-#python -m src.modules.orchestator.models_estimation --sac_test_name example/sacs/CO10/CO10 --detection_dataframe_path results/Detection_CO10_BH*.csv --inventory_path example/inventory
+def main() -> None:
+    subprocess.run(
+        [
+            "python",
+            "-m",
+            "src.modules.orchestator.detect_and_segment",
+            "--sac_test_name",
+            "example/sacs/CO10/CO10",
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [
+            "python",
+            "-m",
+            "src.modules.orchestator.models_estimation",
+            "--sac_test_name",
+            "example/sacs/CO10/CO10",
+            "--detection_dataframe_path",
+            "results/Detection_CO10_BH*.csv",
+            "--inventory_path",
+            "example/inventory",
+        ],
+        check=True,
+    )
+
+
+if __name__ == "__main__":
+    main()
