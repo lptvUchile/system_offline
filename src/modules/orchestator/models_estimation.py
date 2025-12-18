@@ -81,7 +81,7 @@ print("Modelo de torch-incidencia cargado correctamente")
 parser = argparse.ArgumentParser()
 parser.add_argument("--sac_test_name", type=str, default="CO10")
 parser.add_argument("--detection_dataframe_path", type=str, default="results")
-parser.add_argument("--inventory_path", type=str, default="src/models/inventory")
+parser.add_argument("--inventory_path", type=str, default="src/models/inventory/C1_CO10.xml")
 
 args = parser.parse_args()
 sac_test_name = args.sac_test_name
@@ -98,10 +98,8 @@ with open(error_description_file, "w") as f:
 
 for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", unit="evento"):
     
-    station = trace_vel[0].stats.station
-    network = trace_vel[0].stats.network
     try:
-        inv = read_inventory(os.path.join(inventory_path, f"{network}_{station}.xml"))
+        inv = read_inventory(inventory_path)
     except Exception as e:
         print(f"Error al leer el inventario: {e}")
         continue
@@ -128,13 +126,13 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
         df.at[idx, 'mag_menores4m'] = mag_menores4m
     except Exception as e:
         print(e)
-        print("NO PASÓ MAGNITUD")
+        print("Fallo en el calculo de magnitud")
         print("idx", idx)
         df.at[idx, 'descartado'] = True
-        df.at[idx, 'razon_descarte'] = "No pasó magnitud"
+        df.at[idx, 'razon_descarte'] = "Fallo en el calculo de magnitud"
         df.at[idx, 'cat_error'] = 2
         with open(error_description_file, "a") as f:
-            f.write(f"Evento {idx} no pasó magnitud: {e}\n")
+            f.write(f"Evento {idx} fallo en el calculo de magnitud: {e}\n")
         continue
 
     df.at[idx, 'pred_todas_magnitudes'] = mag
@@ -149,13 +147,13 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
         df.at[idx, 'pred_hipocentro_pytorch'] = dst
     except Exception as e:
         print(e)
-        print("NO PASÓ HIPOCENTRO PYTORCH/OFFLINE!!!!!!!!!!!!!!!!!!!!")
+        print("Fallo en el calculo de hipocentro")
         print("idx", idx)
         df.at[idx, 'descartado'] = True
-        df.at[idx, 'razon_descarte'] = "No pasó hipocentro pytorch/offline"
+        df.at[idx, 'razon_descarte'] = "Fallo en el calculo de hipocentro"
         df.at[idx, 'cat_error'] = 7
         with open(error_description_file, "a") as f:
-            f.write(f"Evento {idx} no pasó hipocentro: {e}\n")
+            f.write(f"Evento {idx} fallo en el calculo de hipocentro: {e}\n")
         continue
     df.at[idx, 'descartado'] = False
 
@@ -168,16 +166,17 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
         df.at[idx, 'pred_incidencia_pytorch'] = ang
     except Exception as e:
         print(e)
-        print("NO PASÓ INCIDENCE PYTORCH!!!!!!!!!!!!!!!!!!!!")
+        print("Fallo en el calculo de incidencia")
         print("idx", idx)
         df.at[idx, 'descartado'] = True
-        df.at[idx, 'razon_descarte'] = "No pasó incidence pytorch"
+        df.at[idx, 'razon_descarte'] = "Fallo en el calculo de incidencia"
         df.at[idx, 'cat_error'] = 8
         with open(error_description_file, "a") as f:
-            f.write(f"Evento {idx} no pasó incidence: {e}\n")
+            f.write(f"Evento {idx} fallo en el calculo de incidencia: {e}\n")
         continue
     df.at[idx, 'descartado'] = False
 
 
 df.to_csv(f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}_BH*.csv", index=False)
 print("models_estimation dataframe saved at:", f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}_BH*.csv")
+print("Total de eventos procesados:", len(df))

@@ -27,7 +27,7 @@ def main() -> None:
             "--detection_dataframe_path",
             "results/Detection_CO10_BH*.csv",
             "--inventory_path",
-            "example/inventory",
+            "example/inventory/C1_CO10.xml",
         ],
         check=True,
     )
