@@ -24,7 +24,7 @@ El repo incluye una carpeta `example/` con una estructura mínima esperada:
 ```text
 example/
   inventory/
-    <NET>_<STA>.xml
+    <inv_file>.xml
   sacs/
     <STA>/
       <STA>_BH*.sac
@@ -32,7 +32,7 @@ example/
 
 Notas:
 - **SACs**: se espera un “prefijo” de estación (p. ej. `example/sacs/CO10/CO10`) y el código busca `*_BH*.sac`.
-- **Inventarios**: el script de estimación busca `example/inventory/inv_file.xml`.
+- **Inventarios**: el script de estimación recibe un **archivo XML** (ruta directa) vía `--inventory_path` y lo carga con `obspy.read_inventory(...)`.
 
 ## Ejecución (demo completa)
 
