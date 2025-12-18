@@ -1,0 +1,6 @@
+outs:
+- md5: dc27019cfcf59de5297bff3850e30691.dir
+  size: 34291532
+  nfiles: 1317
+  hash: md5
+  path: results

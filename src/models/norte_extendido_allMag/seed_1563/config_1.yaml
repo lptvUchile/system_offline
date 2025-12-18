@@ -1,0 +1,47 @@
+feature: norte_extendido_paper_sist_offline_vel_todoM
+binary: false
+window_limit:
+- 20
+- 120
+desc: "semilla com\xFAn 1111"
+seeds:
+- 1
+- 4612
+- 3591
+- 1036
+- 4624
+- 4113
+- 2579
+- 2580
+- 535
+- 1563
+accel: false
+global_feat: true
+response: vel
+patience: 200
+lr: 0.00015
+epochs: 2000
+batch_size: 1
+umbral_corte: 0
+filter:
+- highpass
+- 0.1
+dummy: false
+use_cnn_model: true
+use_cnn_features: false
+regression: true
+coast: false
+left_right: false
+softmax: false
+include_env: false
+include_lat_lon: false
+include_index: false
+include_magnitude: false
+norm_energy: false
+concat_features: false
+log_scale: false
+square_fft: false
+include_p_vector: false
+n_energy_frames: 2
+how_to_include_p: 3
+use_module_p: true

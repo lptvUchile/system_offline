@@ -1,0 +1,48 @@
+[project]
+name = "Epicenter_Estimation"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [{ name = "Tomás Jiménez", email = "tjimenez999@gmail.com" }]
+dependencies = [
+  "tensorflow==2.14.1",
+  "keras-multi-head>=0.29.0",
+  "pyyaml>=6.0.1",
+  "obspy>=1.4.1",
+  "geographiclib>=2.0",
+  "scikit-learn>=1.5.0",
+  "pandas>=2.2.2",
+  "keras>=2.14.0",
+  "grpcio==1.64.1",
+  "scipy==1.13.1",
+  "tensorflow-io-gcs-filesystem==0.37.0",
+  "lxml==5.2.2",
+  "h5py==3.11.0",
+  "pillow==10.3.0",
+  "numpy==1.24.3",
+  "matplotlib>=3.9.0",
+  "contourpy==1.2.1",
+  "pykml>=0.2.0",
+  "shapely>=2.0.4",
+  "pygmt>=0.12.0",
+  "protobuf>=4.25.3",
+  "fiona>=1.9.6",
+]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = { text = "MIT" }
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+train-distance = { cmd = "python -m src.distance.train_and_test" }
+train-incidence = { cmd = "python -m src.incidence.train_and_test" }
+train-incidence-mlp = { cmd = "python -m src.incidence_mlp.train_and_test" }
+
+train-backazimuth = { cmd = "python -m src.back_azimuth.train_and_test" }
+train-costero = { cmd = "python -m src.binary_classifier.train_and_test" }
+train-multitask = { cmd = "python -m src.multitask_learning.train_and_test" }
+test-distance = { cmd = "python -m src.distance.only_test" }
+[tool.pdm.dev-dependencies]
+test = ["ipykernel>=6.29.4", "typing-extensions>=4.12.2"]

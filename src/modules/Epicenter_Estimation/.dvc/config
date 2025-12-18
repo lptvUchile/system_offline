@@ -1,0 +1,7 @@
+[core]
+    autostage = true
+    remote = mainremote
+['remote "mainremote"']
+    url = gdrive://1NZIpU7jyZmVPSGMj2fnZF5-h0stSR3s2/dvcstore
+    gdrive_acknowledge_abuse = true
+    gdrive_use_service_account = true

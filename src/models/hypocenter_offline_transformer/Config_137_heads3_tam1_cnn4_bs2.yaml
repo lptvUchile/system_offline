@@ -1,0 +1,73 @@
+db: bddd_offline_paper
+signal_type: vel
+device: cuda
+seeds:
+- 11
+- 22
+
+preprocess_config:
+  response: VEL
+  frame_length: 4
+  frame_shift: 2
+  window_limit:
+  - 20
+  - 120
+  filter:
+  - highpass
+  - 1
+  norm_energy: false
+  square_fft: true
+  log_scale: false
+  mean_temporal_features: false
+  NEW_concat_temporal_features: true
+
+model_config:
+
+  n_bins: 390
+  num_channels: 3
+  u_dim: 42
+  n2_dim: 42
+  out_dim: 1
+  mha_heads: 3
+  act_sel: gelu
+  ln_eps: 1.0e-05
+  channel_hidden: 50
+  frame_hidden: 50
+  dropout: 0.1
+  shared_channel_mlp: true
+  use_activation: true
+  use_positional_encoding: true
+  positional_encoding_type: learned
+  mean_temporal_features: true
+  temporal_processing_module: transformer
+  n_temporal_processing_modules: 1
+  use_cnn_embedding: true
+  cnn_embedding_layers:
+  - input_dim: 390
+    out_channels: 72
+    kernel_size: 3
+    padding: 1
+    stride: 1
+    padding_mode: replicate
+    max_pool_kernel_size: 2
+    max_pool_stride: 2
+    pool_type: max
+  - input_dim: 72
+    out_channels: 48
+    kernel_size: 3
+    padding: 1
+    stride: 1
+    padding_mode: replicate
+    max_pool_kernel_size: 2
+    max_pool_stride: 2
+    pool_type: max
+train_config:
+  criterion_selection: mae
+  optimizer_selection: adam
+  learning_rate: 0.0001
+  epochs: 1000
+  patience: 50
+  delta: 0.1
+  batch_size: 2
+  num_workers: 0
+  save_model: true

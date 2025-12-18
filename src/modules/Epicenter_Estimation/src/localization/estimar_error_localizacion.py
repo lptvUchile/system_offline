@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+
+
+import numpy as np
+import obspy
+import pandas as pd
+
+
+
+#Recibe array con predicciones de back-azimuth y array con los valores reales.
+#Angulos deben estar en rango 0-360
+#Funcion permite calcular error MAE para angulo
+def estimar_error_abs_BAZ(pred,tar):
+    prediction = pred.copy()
+    target = tar.copy()
+    output_error = []
+    for i in range(len(prediction)):
+        error = np.min([np.abs(prediction[i]-target[i]),np.abs(prediction[i]+360-target[i]),np.abs(prediction[i]-target[i]-360)])
+        output_error.append(error)
+    output_error = np.array(output_error)
+    output_error = np.mean(output_error)
+    return output_error
+
+
+
+#recibe arrays con latitud predicha, longitud predicha, lat. real, lon. real y las estaciones de registro
+#retorna error MAPE de localizacion.
+def estimar_error_localizacion(predicted_lat,predicted_lon,lat_real,lon_real, stations):
+    
+    Coordenadas_estaciones ={'PB09':[-21.7964, -69.2419, 1.530],'PB06':[-22.7058, -69.5719, 1.440],'AC02':[-26.8355,-69.1291,3.980],
+               'CO02':[-31.2037, -71.0003, 1.190],'PB14':[-24.6260, -70.4038, 2.630],'CO01':[-29.9773,-70.0939,2.157],
+               'GO01':[-19.6685,-69.1942,3.809],'GO03':[-27.5937,-70.2347,0.730],'PB18':[-17.5895,-69.480, 4.155],
+               'MT16':[-33.4285,-70.5234,0.780],'AC04':[-28.2046,-71.0739,0.228],'AC05':[-28.8364,-70.2738,1.227],
+                'AP01':[-18.3708,-70.342,0.031],'CO03':[-30.8389,-70.6891,1.003],'GO04':[-30.1727,-70.7993,2.076],
+                'HMBCX':[-20.2782,-69.8879,1.152],'MNMCX':[-19.1311,-69.5955,2.304],'MT02':[-33.2591,-71.1377,0.323],
+                         'MT03':[-33.4936,-70.5102,1.087],'MT05':[-33.3919,-70.7381,0.765],'PATCX':[-20.8207,-70.1529,0.832],
+                         'PB01':[-21.0432,-69.4874,0.9],'PB02':[-21.3197,-69.896,1.015],'PB03':[-22.0485,-69.7531,1.46],
+                         'PB04':[-22.3337,-70.1492,1.52],'PB05':[-22.8528,-70.2024,1.15],'PB07':[-21.7267,-69.8862,1.57],
+                         'PB10':[-23.5134,-70.5541,0.25],'PB11':[-19.761,-69.6558,1.4],'PB12':[-18.6141,-70.3281,0.908],
+                         'PB15':[-23.2083,-69.4709,1.83],'PSGCX':[-19.5972,-70.1231,0.966],'TA01':[-20.5656,-70.1807,0.075],
+                         'TA02':[-20.2705,-70.1311,0.0865],'VA03':[-32.7637,-70.5508,1.053], 'GO02':[-25.1626,-69.5904,2.550],
+                        'GO05':[-35.0099,-71.9303,0.488], 'PB16':[-18.3351,-69.5077,4.480], 'PB08':[-20.1411,-69.1534,3.060],
+                        'CO04':[-32.0433,-70.9747,2.401],'VA01':[-33.0228,-71.6475,0.0756],'AC01':[-26.1479,-70.5987,0.346],
+                        'CO05':[-29.9186,-71.2384,0.101],'CO06':[-30.6738,-71.6350,0.2466], 'VA06':[-32.5612,-71.2977,0.080],
+                        'CO10':[-29.2406,-71.4609,0.035], 'BO03': [-34.4961,-71.9612,0.128],'AC07':[-27.1297,-70.8602,0.072],
+                        'PX06':[-23.5115,-70.2495,0.700]}
+    
+    error_loc_mae = []
+    error_loc_mape = []
+    for i in range(len(predicted_lat)):
+        dist, azi, bazi = obspy.geodetics.base.gps2dist_azimuth(predicted_lat[i], predicted_lon[i], lat_real[i], lon_real[i])
+        dist = dist/1000
+        
+        dist_sta_ev, az, bz  = obspy.geodetics.base.gps2dist_azimuth(lat_real[i], lon_real[i],
+                                                                     Coordenadas_estaciones[stations[i]][0], Coordenadas_estaciones[stations[i]][1])
+        dist_sta_ev = dist_sta_ev/1000
+        error_loc_mae.append(abs(dist))
+        error_loc_mape.append(dist/dist_sta_ev)
+    
+    return np.mean(error_loc_mae), np.mean(error_loc_mape)*100
+        
+
+
+
+#recibe arrays con la distancia predicha y la distancia real
+#retorna el error porcentual en distancia
+def estimar_error_distancia(predicted_dist,dist_real):
+    
+    error_localizaciones = []
+    for i in range(len(dist_real)):
+
+        error_localizaciones.append(abs(dist_real[i]-predicted_dist[i])/dist_real[i])
+    
+    return np.mean(error_localizaciones)*100   
