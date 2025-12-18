@@ -26,7 +26,6 @@ class HypocenterModelTorch:
  
     def evaluate_wrapper_mode(self,input: torch.Tensor):
         assert input.size(0)==1, "Input see debe entregar como tensor de batch size 1 (dimensión (0))"
-        print(input.shape)
         input = input.to(self.DEVICE)
         self.model.eval()
         with torch.no_grad():

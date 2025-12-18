@@ -89,10 +89,8 @@ class FeatureExtractor():
         """
 
         if filter == "bandpass":
-            #print(f"Applying bandpass filter from {options[0]} to {options[1]} Hz")
             trace.filter(filter, freqmin=options[0], freqmax=options[1], corners=2, zerophase=True)
         else:
-            #print(f"Applying {filter} filter with frequency {options} Hz")
             trace.filter(filter, freq=options, corners=2, zerophase=True)
 
 
@@ -157,7 +155,6 @@ class FeatureExtractor():
         fs = int(canal_sac_Z[0].stats.sampling_rate)
         
         if fs !=40:
-            #print("APLICANDO DOWNSAMPLING")
             canal_sac_Z = downsample_to40hz(canal_sac_Z,fs)
             canal_sac_E = downsample_to40hz(canal_sac_E,fs)
             canal_sac_N = downsample_to40hz(canal_sac_N,fs)
@@ -208,18 +205,14 @@ class FeatureExtractor():
         data_n = data_n[:muestra_corte_coda]
         
    
-        #print('EN parametrizador')
         scale = 'logaritmica' if self.log_scale else 'lineal'
         
-        #print(f'Using {scale} scale')
         if self.square_fft:
-            #print('Using square at ffts')
             feat_k_z = parametrizador2(data_z, frame_len, frame_shi,nfft, escala = scale)
             feat_k_e = parametrizador2(data_e, frame_len, frame_shi,nfft, escala = scale)
             feat_k_n = parametrizador2(data_n, frame_len, frame_shi,nfft, escala = scale)
         
         else:
-            #print('Using no squares at ffts')
             #A la traza enventanadada se le obtiene abs(FFT//2), puede ir con o sin logaritmo
             feat_k_z = parametrizador(data_z, frame_len, frame_shi,nfft, escala = 'logaritmica')
             feat_k_e = parametrizador(data_e, frame_len, frame_shi,nfft, escala = 'logaritmica')

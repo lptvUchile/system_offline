@@ -244,7 +244,6 @@ class MagnitudeEstimator:
             
     def magnitude_estimation(self, sac_conc, inv):
         feat_in_test_temporal =function_features_extration(sac_conc, inv)
-        print(f"feat_in_test_temporal.shape: {feat_in_test_temporal.shape}")
         
         magnitude = self.DNN_magnitude_todos( [feat_in_test_temporal] )
         magnitud_menores4m = self.DNN_magnitude_menores4m( [feat_in_test_temporal] )

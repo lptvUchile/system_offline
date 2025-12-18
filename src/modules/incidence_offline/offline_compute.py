@@ -5,6 +5,14 @@ import numpy as np
 from .features import FeatureExtractor
 from obspy import UTCDateTime, read, read_inventory
 from typing import List
+import warnings
+
+
+warnings.filterwarnings(
+    "ignore",
+    message="To copy construct from a tensor.*",
+    category=UserWarning
+)
 
 class OfflineIncidencePreprocessing:
 

@@ -5,6 +5,7 @@ import os
 import argparse
 import pandas as pd
 import yaml
+from tqdm import tqdm
 
 from src.modules.Magnitude.magnitude_estimation import MagnitudeEstimator
 from src.modules.hypocenter_offline.reduced_model import HypocenterModelTorch
@@ -16,8 +17,6 @@ from src.modules.incidence_offline.offline_compute import OfflineIncidencePrepro
 
 
 cwd = os.getcwd()
-
-# Rutas para modelos reentrenados, septiembre 2025
 
 # se inicializa el modelo de magnitud
 try:
@@ -97,10 +96,7 @@ error_description_file = "results/error_description.txt"
 with open(error_description_file, "w") as f:
     f.write("Error log:\n")
 
-for idx, row in df.iterrows():
-    
-    #start_time = row['time']
-    #end_time = start_time + row['duration']
+for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", unit="evento"):
     
     station = trace_vel[0].stats.station
     network = trace_vel[0].stats.network
