@@ -13,7 +13,7 @@ def main() -> None:
             "-m",
             "src.modules.orchestator.detect_and_segment",
             "--sac_test_name",
-            "example/sacs/CO10/CO10",
+            "example/sacs/CO10",
         ],
         check=True,
     )
@@ -23,7 +23,7 @@ def main() -> None:
             "-m",
             "src.modules.orchestator.models_estimation",
             "--sac_test_name",
-            "example/sacs/CO10/CO10",
+            "example/sacs/CO10",
             "--detection_dataframe_path",
             "results/Detection_CO10_BH*.csv",
             "--inventory_path",
@@ -31,6 +31,7 @@ def main() -> None:
         ],
         check=True,
     )
+
 
 
 if __name__ == "__main__":

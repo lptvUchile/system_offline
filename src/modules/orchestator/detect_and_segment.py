@@ -29,7 +29,7 @@ os.makedirs(os.path.join(os.getcwd(), "results"), exist_ok=True)
 # === Deteccion ================================================================
 
 Deteccion_sismica(
-        os.path.join(os.getcwd(), f"{sac_test_name}_BH*.sac"),
+        os.path.join(os.getcwd(), f"{sac_test_name}","*BH*.sac"),
         models={
             "path_probPrior_train": os.path.join(os.getcwd(), "src/models/detection_2025/Probs_Prior_Train.npy"),
             "path_modelo": os.path.join(os.getcwd(), "src/models/detection_2025/model_MLP_HMM_NC_M4_v2.pt"),
@@ -55,7 +55,7 @@ df = pd.DataFrame([line.split() for line in detections if line.strip()],
 df['time'] = df['time'].astype(float)
 df['duration'] = df['duration'].astype(float)
 
-trace_vel = read(os.path.join(os.getcwd(), f"{sac_test_name}_BH*.sac"))
+trace_vel = read(os.path.join(os.getcwd(), f"{sac_test_name}","*_BH*.sac"))
 
 
 for idx, row in df.iterrows():

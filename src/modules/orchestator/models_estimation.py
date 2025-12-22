@@ -87,7 +87,7 @@ args = parser.parse_args()
 sac_test_name = args.sac_test_name
 detection_dataframe_path = args.detection_dataframe_path
 inventory_path = args.inventory_path
-trace_vel = read(os.path.join(os.getcwd(), f"{sac_test_name}_BH*.sac"))
+trace_vel = read(os.path.join(os.getcwd(), f"{sac_test_name}","*_BH*.sac"))
 
 df = pd.read_csv(detection_dataframe_path)
 print("df:", df)
