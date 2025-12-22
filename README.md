@@ -2,7 +2,9 @@
 
 Pipeline offline para **detección/segmentación** de eventos y **estimación** (magnitud + hipocentro + ángulo de íncidencia).
 
-(TEXto relleno)
+La herramienta App-Segmentation fue desarrollada para apoyar las tareas de detección, segmentación y estimación de parámetros. En particular, este pipeline offline está diseñado para estimar la magnitud, el hipocentro y el ángulo de incidencia. El sistema está implementado en Python 3.10.13 y procesa datos sísmicos en formato SAC, junto con archivos de inventario en XML.
+
+El código fuente estará disponible de forma gratuita en: https://github.com/lptvUchile/system_offline. Para más información, puede contactar al Prof. Néstor Becerra Yoma en: nbecerra@ing.uchile.cl
 
 ## Requisitos
 
