@@ -2,6 +2,8 @@
 
 Pipeline offline para **detección/segmentación** de eventos y **estimación** (magnitud + hipocentro + ángulo de íncidencia).
 
+(TEXto relleno)
+
 ## Requisitos
 
 - **Python**: 3.10.13
@@ -53,25 +55,25 @@ Esto ejecuta, en orden:
 
 ```bash
 python -m src.modules.orchestator.detect_and_segment \
-  --sac_test_name example/sacs/CO10/CO10 \
+  --sac_test_name example/sacs/CO10 \
   --detection_output_path results
 ```
 
 Outputs típicos en `results/`:
-- `Detection_<prefijo>_BH*.ctm`
-- `Detection_<prefijo>_BH*.csv`
+- `Detection_<prefijo>.ctm`
+- `Detection_<prefijo>.csv`
 
 ### 2) Estimación (magnitud, hipocentro y ángulo)
 
 ```bash
 python -m src.modules.orchestator.models_estimation \
-  --sac_test_name example/sacs/CO10/CO10 \
-  --detection_dataframe_path "results/Detection_CO10_BH*.csv" \
+  --sac_test_name example/sacs/CO10 \
+  --detection_dataframe_path "results/Detection_CO10.csv" \
   --inventory_path example/inventory/C1_CO10.xml
 ```
 
 Output:
-- `results/models_estimation_<prefijo>_BH*.csv`
+- `results/models_estimation_<prefijo>.csv`
 
 ## Modelos usados (paths actuales)
 

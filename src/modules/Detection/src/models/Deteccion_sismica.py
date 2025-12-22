@@ -41,7 +41,7 @@ def Deteccion_sismica(sac_file, models, results_path):
     # path_modelo = "../../models/model_MLP_HMM_NorthChile.pt"
 
     # Rutas para guardar resultados
-    name_file_results = sac_file.split("/")[-1].split(".")[0]
+    name_file_results = sac_file.split("/")[-2]
     # file_viterbi_test = "../../models/results/Detection_" + name_file_results
     file_viterbi_test = results_path + "/Detection_" + name_file_results
 

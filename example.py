@@ -25,7 +25,7 @@ def main() -> None:
             "--sac_test_name",
             "example/sacs/CO10",
             "--detection_dataframe_path",
-            "results/Detection_CO10_BH*.csv",
+            "results/Detection_CO10.csv",
             "--inventory_path",
             "example/inventory/C1_CO10.xml",
         ],

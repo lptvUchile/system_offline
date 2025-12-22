@@ -45,7 +45,7 @@ Deteccion_sismica(
 # === Leer detecciones ========================================================
 pre_str = sac_test_name.split('/')[-1].split('.')[0]
 print("pre_str:", pre_str)
-ctm_file = "Detection_"+pre_str+"_BH*.ctm"
+ctm_file = "Detection_"+pre_str+".ctm"
 print("ctm_file:", ctm_file)
 with open(os.path.join("results", ctm_file), "r") as f:
         detections = f.readlines()
@@ -79,7 +79,7 @@ for idx, row in df.iterrows():
 
 
 # TODO: guardar en CSV?
-df.to_csv(os.path.join(detection_output_path, f"Detection_{pre_str}_BH*.csv"), index=False)
-print("Detection dataframe saved at:", os.path.join(detection_output_path, f"Detection_{pre_str}_BH*.csv"))
+df.to_csv(os.path.join(detection_output_path, f"Detection_{pre_str}.csv"), index=False)
+print("Detection dataframe saved at:", os.path.join(detection_output_path, f"Detection_{pre_str}.csv"))
 
 

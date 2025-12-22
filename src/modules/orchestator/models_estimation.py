@@ -122,8 +122,8 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
     # se estima la magnitud
     try:
         mag, mag_menores4m = magnitude_estimator.magnitude_estimation(sac_conc_v.copy(), inv)
-        df.at[idx, 'mag_todos'] = mag
-        df.at[idx, 'mag_menores4m'] = mag_menores4m
+        df.at[idx, 'pred_magnitud_todos'] = mag
+        df.at[idx, 'pred_magnitud_menores4m'] = mag_menores4m
     except Exception as e:
         print(e)
         print("Fallo en el calculo de magnitud")
@@ -135,8 +135,6 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
             f.write(f"Evento {idx} fallo en el calculo de magnitud: {e}\n")
         continue
 
-    df.at[idx, 'pred_todas_magnitudes'] = mag
-    df.at[idx, 'pred_menores4m'] = mag_menores4m
     
     #================================================================================================================
     #===========================================Modelo de HYPOCENTRO PYTORCH ========================================
@@ -144,7 +142,7 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
     try:
         input_tensor = hypocenter_offline_preprocessing.preprocess_data(trace = trace_sliced_vel, inv = inv, frame_p = UTCDateTime(row['time']))
         dst = hypocenter_offline_model.evaluate_wrapper_mode(input_tensor)
-        df.at[idx, 'pred_hipocentro_pytorch'] = dst
+        df.at[idx, 'pred_hipocentro'] = dst
     except Exception as e:
         print(e)
         print("Fallo en el calculo de hipocentro")
@@ -163,7 +161,7 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
     try:
         input_tensor = incidence_offline_preprocessing.preprocess_data(trace = trace_sliced_vel, inv = inv, frame_p = UTCDateTime(row['time']))
         ang = incidence_offline_model.evaluate_wrapper_mode(input_tensor)
-        df.at[idx, 'pred_incidencia_pytorch'] = ang
+        df.at[idx, 'pred_incidencia'] = ang
     except Exception as e:
         print(e)
         print("Fallo en el calculo de incidencia")
@@ -177,6 +175,6 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
     df.at[idx, 'descartado'] = False
 
 
-df.to_csv(f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}_BH*.csv", index=False)
-print("models_estimation dataframe saved at:", f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}_BH*.csv")
+df.to_csv(f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}.csv", index=False)
+print("models_estimation dataframe saved at:", f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}.csv")
 print("Total de eventos procesados:", len(df))
