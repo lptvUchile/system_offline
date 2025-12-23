@@ -1,8 +1,8 @@
 # system_offline
 
-Pipeline offline para **detección/segmentación** de eventos y **estimación** (magnitud + hipocentro + ángulo de íncidencia).
+Pipeline offline para **detección/segmentación** de eventos y **estimación** (magnitud + hipocentro).
 
-La herramienta App-Segmentation fue desarrollada para apoyar las tareas de detección, segmentación y estimación de parámetros. En particular, este pipeline offline está diseñado para estimar la magnitud, el hipocentro y el ángulo de incidencia. El sistema está implementado en Python 3.10.13 y procesa datos sísmicos en formato SAC, junto con archivos de inventario en XML.
+La herramienta App-Segmentation fue desarrollada para apoyar las tareas de detección, segmentación y estimación de parámetros. En particular, este pipeline offline está diseñado para estimar la magnitud y el hipocentro. El sistema está implementado en Python 3.10.13 y procesa datos sísmicos en formato SAC, junto con archivos de inventario en XML.
 
 El código fuente estará disponible de forma gratuita en: https://github.com/lptvUchile/system_offline. Para más información, puede contactar al Prof. Néstor Becerra Yoma en: nbecerra@ing.uchile.cl
 
@@ -65,7 +65,7 @@ Outputs típicos en `results/`:
 - `Detection_<prefijo>.ctm`
 - `Detection_<prefijo>.csv`
 
-### 2) Estimación (magnitud, hipocentro y ángulo)
+### 2) Estimación (magnitud e hipocentro)
 
 ```bash
 python -m src.modules.orchestator.models_estimation \
