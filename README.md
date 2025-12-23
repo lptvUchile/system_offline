@@ -1,17 +1,17 @@
 # system_offline
 
-Pipeline offline para **detección/segmentación** de eventos y **estimación** (magnitud + hipocentro).
+Offline pipeline for **event detection/segmentation** and **estimation** (magnitude + hypocenter).
 
-La herramienta App-Segmentation fue desarrollada para apoyar las tareas de detección, segmentación y estimación de parámetros. En particular, este pipeline offline está diseñado para estimar la magnitud y el hipocentro. El sistema está implementado en Python 3.10.13 y procesa datos sísmicos en formato SAC, junto con archivos de inventario en XML.
+The App-Segmentation tool was developed to support detection, segmentation, envelope detection, and parameter estimation tasks. In particular, this offline pipeline is designed to estimate magnitude and hypocenter. The system is implemented in Python 3.10.13 and processes seismic data in SAC format together with XML inventory files.
 
-El código fuente estará disponible de forma gratuita en: https://github.com/lptvUchile/system_offline. Para más información, puede contactar al Prof. Néstor Becerra Yoma en: nbecerra@ing.uchile.cl
+The source code will be available for free at: [`https://github.com/lptvUchile/system_offline`](https://github.com/lptvUchile/system_offline). For more information, you can contact Prof. Néstor Becerra Yoma at: `nbecerra@ing.uchile.cl`
 
-## Requisitos
+## Requirements
 
 - **Python**: 3.10.13
-- **Dependencias**: instalar primero `requirements.txt` y luego `requirements_part_2.txt` (En ese orden)
+- **Dependencies**: install `requirements.txt` first and then `requirements_part_2.txt` (in that order)
 
-Instalación (en un venv/conda activo):
+Installation (in an active venv/conda environment):
 
 ```bash
 pip install -r requirements.txt 
@@ -21,9 +21,9 @@ pip install -r requirements.txt
 pip install -r requirements_part_2.txt
 ```
 
-## Estructura de datos (demo)
+## Data structure (demo)
 
-El repo incluye una carpeta `example/` con una estructura mínima esperada:
+The repo includes an `example/` folder with the minimal expected structure:
 
 ```text
 example/
@@ -34,26 +34,26 @@ example/
       <STA>_BH*.sac
 ```
 
-Notas:
-- **SACs**: se espera un “prefijo” de estación (p. ej. `example/sacs/CO10/CO10`) y el código busca `*_BH*.sac`.
-- **Inventarios**: el script de estimación recibe un **archivo XML** (ruta directa) vía `--inventory_path` y lo carga con `obspy.read_inventory(...)`.
+Notes:
+- **SACs**: a station “prefix” is expected (e.g., `example/sacs/CO10/CO10`) and the code searches for `*_BH*.sac`.
+- **Inventories**: the estimation script receives an **XML file** (direct path) via `--inventory_path` and loads it with `obspy.read_inventory(...)`.
 
-## Ejecución (demo completa)
+## Run (full demo)
 
-Desde la raíz del repo:
+From the repo root:
 
 ```bash
 python example.py
 ```
 
-Esto ejecuta, en orden:
+This runs, in order:
 
 1) `src.modules.orchestator.detect_and_segment`
 2) `src.modules.orchestator.models_estimation`
 
-## Ejecución por etapas
+## Run by stages
 
-### 1) Detección + segmentación
+### 1) Detection + segmentation
 
 ```bash
 python -m src.modules.orchestator.detect_and_segment \
@@ -61,11 +61,11 @@ python -m src.modules.orchestator.detect_and_segment \
   --detection_output_path results
 ```
 
-Outputs típicos en `results/`:
+Typical outputs in `results/`:
 - `Detection_<prefijo>.ctm`
 - `Detection_<prefijo>.csv`
 
-### 2) Estimación (magnitud e hipocentro)
+### 2) Estimation (magnitude and hypocenter)
 
 ```bash
 python -m src.modules.orchestator.models_estimation \
@@ -77,12 +77,12 @@ python -m src.modules.orchestator.models_estimation \
 Output:
 - `results/models_estimation_<prefijo>.csv`
 
-## Modelos usados (paths actuales)
+## Models used (current paths)
 
-Los scripts de orquestación cargan modelos desde `src/models/`.
+The orchestration scripts load models from `src/models/`.
 
 
-## Troubleshooting rápido
+## Quick troubleshooting
 
-- **`ModuleNotFoundError`**: ejecuta los módulos con `python -m ...` desde la raíz del repo (como en los ejemplos).
-- **Mensajes de TensorFlow sobre GPU**: si no tienes CUDA/TensorRT instalados, son warnings esperables; el código corre en CPU.
+- **`ModuleNotFoundError`**: run modules with `python -m ...` from the repo root (as in the examples).
+- **TensorFlow GPU messages**: if you don’t have CUDA/TensorRT installed, these are expected warnings; the code runs on CPU.

@@ -3,6 +3,14 @@ import pandas as pd
 import numpy as np
 from .features import FeatureExtractor
 from typing import List
+import warnings
+
+
+warnings.filterwarnings(
+    "ignore",
+    message="To copy construct from a tensor.*",
+    category=UserWarning
+)
 
 class OfflineDistancePreprocessing:
 

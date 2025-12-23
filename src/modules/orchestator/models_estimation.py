@@ -10,8 +10,7 @@ from tqdm import tqdm
 from src.modules.Magnitude.magnitude_estimation import MagnitudeEstimator
 from src.modules.hypocenter_offline.reduced_model import HypocenterModelTorch
 from src.modules.hypocenter_offline.offline_compute import OfflineDistancePreprocessing
-from src.modules.incidence_offline.reduced_model import IncidenceModelTorch
-from src.modules.incidence_offline.offline_compute import OfflineIncidencePreprocessing
+
 
 # Carga de modelos
 
@@ -56,25 +55,6 @@ hypocenter_offline_preprocessing = OfflineDistancePreprocessing(**params_dict['p
 hypocenter_offline_model = HypocenterModelTorch(device="cpu",model_cfg=params_dict['model_config'])
 hypocenter_offline_model.load_model(path=MODEL_PATH)
 print("Modelo de torch-hipocentro cargado correctamente")
-
-#===========================================================
-#=========MODELO INCIDENCIA NUEVO ==========================
-#===========================================================
-
-
-
-
-INCIDENCE_YAML_PATH = os.path.join(os.getcwd(), "src/models/incidence_offline_torch/config_14.yaml")
-INCIDENCE_MODEL_PATH = os.path.join(os.getcwd(), "src/models/incidence_offline_torch/9992_weights.pth")
-
-
-params_dict = read_yaml(INCIDENCE_YAML_PATH)
-incidence_offline_preprocessing = OfflineIncidencePreprocessing(**params_dict['preprocess_config'])
-incidence_offline_model = IncidenceModelTorch(device="cpu",model_cfg=params_dict['model_config'])
-incidence_offline_model.load_model(path=INCIDENCE_MODEL_PATH)
-
-print("Modelo de torch-incidencia cargado correctamente")
-
 
 
 
@@ -155,24 +135,7 @@ for idx, row in tqdm(df.iterrows(), total=len(df), desc="Procesando eventos", un
         continue
     df.at[idx, 'descartado'] = False
 
-    #================================================================================================================
-    #===========================================Modelo de INCIDENCE PYTORCH ========================================
-    #================================================================================================================
-    try:
-        input_tensor = incidence_offline_preprocessing.preprocess_data(trace = trace_sliced_vel, inv = inv, frame_p = UTCDateTime(row['time']))
-        ang = incidence_offline_model.evaluate_wrapper_mode(input_tensor)
-        df.at[idx, 'pred_incidencia'] = ang
-    except Exception as e:
-        print(e)
-        print("Fallo en el calculo de incidencia")
-        print("idx", idx)
-        df.at[idx, 'descartado'] = True
-        df.at[idx, 'razon_descarte'] = "Fallo en el calculo de incidencia"
-        df.at[idx, 'cat_error'] = 8
-        with open(error_description_file, "a") as f:
-            f.write(f"Evento {idx} fallo en el calculo de incidencia: {e}\n")
-        continue
-    df.at[idx, 'descartado'] = False
+
 
 
 df.to_csv(f"results/models_estimation_{sac_test_name.split('/')[-1].split('.')[0]}.csv", index=False)
