@@ -1,8 +1,8 @@
 # system_offline
 
-Offline pipeline for **event detection/segmentation** and **estimation** (magnitude + hypocenter).
+Offline pipeline for **event detection/segmentation** and **estimation** (magnitude + hypocenter-station distance).
 
-The App-Segmentation tool was developed to support detection, segmentation, envelope detection, and parameter estimation tasks. In particular, this offline pipeline is designed to estimate magnitude and hypocenter. The system is implemented in Python 3.10.13 and processes seismic data in SAC format together with XML inventory files.
+The App-Segmentation tool was developed to support detection, segmentation, envelope detection, and parameter estimation tasks. In particular, this offline pipeline is designed to estimate magnitude and hypocenter-station distance. The system is implemented in Python 3.10.13 and processes seismic data in SAC format together with XML inventory files.
 
 The source code will be available for free at: [`https://github.com/lptvUchile/system_offline`](https://github.com/lptvUchile/system_offline). For more information, you can contact Prof. Néstor Becerra Yoma at: `nbecerra@ing.uchile.cl`
 
@@ -65,7 +65,7 @@ Typical outputs in `results/`:
 - `Detection_<prefijo>.ctm`
 - `Detection_<prefijo>.csv`
 
-### 2) Estimation (magnitude and hypocenter)
+### 2) Estimation (magnitude and hypocenter-station distance)
 
 ```bash
 python -m src.modules.orchestator.models_estimation \
