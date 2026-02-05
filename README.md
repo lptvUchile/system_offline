@@ -82,13 +82,14 @@ Output:
 The orchestration scripts load models from `src/models/`.
 
 ## Data access
-### 1) Data for detection and segmentation.
+
+The data used is available for access at the following links. For detection and segmentation, we have attached the test data used. The hypocentre-station and magnitude data can be found in all subsets (train, validation, and test). Finally, we have attached the 24-hour trace from La Serena used in the end-to-end evaluation.
+
 [`Data test detection and sementation`](https://drive.google.com/drive/folders/139cctqTNH3rUpgnb29CPxOQKt4SySKwp?usp=drive_link)
 
+[`Data hypocenter-station and magnitude`](https://drive.google.com/drive/folders/15-53ZneV8sTFC0YUrUMtWgxt8ldfUGpe?usp=sharing)
 
-### 2) Data for: Distance the hypocentre-station, and magnitude.
-
-### 3) Data for End-to-end evaluation.
+[`Data End-to-end evaluation`](https://drive.google.com/drive/folders/1FB5551FYOUjR6BI6KrTOOITkWYPkz2hS?usp=drive_link)
 
 
 ## Quick troubleshooting
