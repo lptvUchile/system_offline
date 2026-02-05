@@ -83,7 +83,7 @@ The orchestration scripts load models from `src/models/`.
 
 ## Data access
 ### 1) Data for detection and segmentation.
-[`https://drive.google.com/drive/folders/139cctqTNH3rUpgnb29CPxOQKt4SySKwp?usp=drive_link`](Data test detection and sementation).
+[`Data test detection and sementation`](https://drive.google.com/drive/folders/139cctqTNH3rUpgnb29CPxOQKt4SySKwp?usp=drive_link)
 
 
 ### 2) Data for: Distance the hypocentre-station, and magnitude.
